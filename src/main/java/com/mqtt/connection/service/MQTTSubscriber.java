@@ -68,8 +68,6 @@ class MQTTSubscriber implements MqttCallback {
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
-        // TODO Auto-generated method stub
-        
     }
 
     public static void sendMessage(String messageString, String topic){
