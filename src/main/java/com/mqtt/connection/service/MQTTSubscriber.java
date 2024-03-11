@@ -8,13 +8,12 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-class MQTTService implements MqttCallback {
+class MQTTSubscriber implements MqttCallback {
 
     @Value("${mqtt.topic}")
     private String topic;
@@ -27,7 +26,7 @@ class MQTTService implements MqttCallback {
     @PostConstruct
     public void initilize(){
         
-        String clientId = "mqtt-client-304";     
+        String clientId = "mqtt-subscriber";
 
         try (MemoryPersistence persistence = new MemoryPersistence()) {
 
@@ -43,7 +42,7 @@ class MQTTService implements MqttCallback {
 
             //subscribe topic
             mqttClient.subscribe(topic);
-            System.out.println("topic "+topic+" subscribed");
+            System.out.println("topic: "+topic+" subscribed");
             
         } catch(MqttException me) {
             System.out.println("reason "+me.getReasonCode());
@@ -51,7 +50,6 @@ class MQTTService implements MqttCallback {
             System.out.println("loc "+me.getLocalizedMessage());
             System.out.println("cause "+me.getCause());
             System.out.println("excep "+me);
-            me.printStackTrace();
         }
     
    }
@@ -63,7 +61,7 @@ class MQTTService implements MqttCallback {
     }
 
     @Override
-    public void messageArrived(String topic, MqttMessage message) throws Exception {
+    public void messageArrived(String topic, MqttMessage message) {
         System.out.println("message received : "+message.toString()+", topic:"+topic);
         
     }

@@ -1,22 +1,16 @@
 package com.mqtt.connection.samples;
 
-import javax.annotation.PostConstruct;
-
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
-class MQTTSender {
+class MQTTPublisher {
 
     private static MqttClient mqttClient = null;
 
-    public static void main( String args[]){
+    public static void main(String[] args){
         
         String clientId = "mqtt-client-305";     
         String url ="tcp://localhost:1883";
@@ -38,9 +32,8 @@ class MQTTSender {
                 String message ="Message  "+i;
                 sendMessage(message,topic);
                 i++;
-                Thread.currentThread().sleep(3000);
+                Thread.sleep(3000);
             }
-            
         } catch(Exception e) {
             e.printStackTrace();
         }
